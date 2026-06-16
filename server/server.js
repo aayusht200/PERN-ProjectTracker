@@ -5,7 +5,19 @@ const app = express();
 app.use(express.json());
 
 app.use('/api/projects', projectRoutes);
-app.use('/', taskRoutes);
+app.use('/api/projects', taskRoutes);
+app.use((req, res) => {
+    res.status(404).json({
+        message: 'Route not found',
+    });
+});
+app.use((err, req, res, next) => {
+    console.error(err);
+
+    res.status(500).json({
+        message: 'Internal Server Error',
+    });
+});
 app.listen(3000, () => {
     console.log('Connection sucessful.');
 });
