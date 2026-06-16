@@ -1,4 +1,4 @@
-import { pool } from '../db.js';
+import { pool } from '../dbConnection.js';
 import { project } from '../Query/project.queries.js';
 
 export const getAllProjects = (req, res) => {

@@ -1,5 +1,5 @@
 import { response } from 'express';
-import { pool } from '../db.js';
+import { pool } from '../dbConnection.js';
 import { tasks } from '../Query/tasks.queries.js';
 export const getProjectTasks = (req, res) => {
     const { projectId } = req.params;
