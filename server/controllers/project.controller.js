@@ -1,4 +1,4 @@
-import { pool } from '../dbConnection.js';
+import { pool } from '../db.js';
 import { project } from '../Query/project.queries.js';
 
 export const getAllProjects = (req, res) => {
@@ -20,7 +20,7 @@ export const getProject = (req, res) => {
     pool.query(query, values)
         .then((response) => {
             if (response.rowCount === 1) res.json(response.rows);
-            else res.status(404).send({ message: 'invalid id' });
+            else res.status(404).json({ message: 'invalid id' });
         })
         .catch((err) => {
             console.error(err);
@@ -35,9 +35,9 @@ export const createProject = (req, res) => {
     const values = [title, description, status, start_date, end_date];
     pool.query(query, values)
         .then((response) => {
-            if (response.rowCount === 1) res.status(200).send({ message: 'New Project inserted sucessfully' });
+            if (response.rowCount === 1) res.status(200).json({ message: 'New Project inserted sucessfully' });
             else {
-                res.status(400).send({ message: 'Insertion failed' });
+                res.status(400).json({ message: 'Insertion failed' });
             }
         })
         .catch((error) => {
@@ -86,4 +86,20 @@ export const deleteProject = (req, res) => {
                 message: 'Internal Server Error',
             });
         });
+};
+
+export const validateProject = (req, res, next) => {
+    const { title, description, status, start_date, end_date } = req.body;
+    const allowed = ['active', 'pending', 'done'];
+    if (!title || !status) {
+        return res.status(400).json({
+            message: 'title and status are required',
+        });
+    }
+    if (!allowed.includes(status)) {
+        return res.status(400).json({
+            message: 'invalid status value',
+        });
+    }
+    next();
 };
