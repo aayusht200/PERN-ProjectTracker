@@ -1,7 +1,8 @@
 import React from 'react';
+import ProjectPage from './componenets/project/ProjectPage';
 
 function App() {
-    return <div>App</div>;
+    return <ProjectPage />;
 }
 
 export default App;
