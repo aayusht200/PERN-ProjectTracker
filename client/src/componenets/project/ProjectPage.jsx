@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import TableComponent from '../table/TableComponent';
 import { columns } from './projectColumns.js';
+import { useNavigate } from 'react-router-dom';
 const ProjectPage = () => {
     const [projects, setData] = useState([]);
     useEffect(() => {
@@ -25,9 +26,11 @@ const ProjectPage = () => {
     );
 };
 function ActionBar({ id }) {
+    const navigate = useNavigate();
     return (
         <div className="grid">
             <button
+                className="border-b"
                 onClick={() => {
                     console.log(id);
                 }}
@@ -36,7 +39,7 @@ function ActionBar({ id }) {
             </button>
             <button
                 onClick={() => {
-                    console.log(id);
+                    navigate(`/project/${id}/tasks`);
                 }}
             >
                 Tasks

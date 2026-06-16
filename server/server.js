@@ -2,6 +2,7 @@ import express from 'express';
 import projectRoutes from './routes/project.routes.js';
 import taskRoutes from './routes/tasks.routes.js';
 import cors from 'cors';
+const PORT = 3000;
 const app = express();
 app.use(express.json());
 app.use(
@@ -23,6 +24,7 @@ app.use((err, req, res, next) => {
         message: 'Internal Server Error',
     });
 });
-app.listen(3000, () => {
-    console.log('Connection sucessful.');
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
