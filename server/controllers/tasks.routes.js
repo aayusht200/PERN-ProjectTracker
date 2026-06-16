@@ -73,17 +73,4 @@ export const deleteTask = (req, res) => {
         });
 };
 
-export const validateTask = (req, res, next) => {
-    const { title, description, status, start_date, end_date } = req.body;
-    const allowed = ['active', 'pending', 'done'];
-    if (!title || !status) {
-        return res.status(400).json({
-            message: 'title and status are required',
-        });
-    }
-    if (!allowed.includes(status)) {
-        return res.status(400).json({
-            message: 'invalid status value',
-        });
-    }
-};
+

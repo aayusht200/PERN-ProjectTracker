@@ -9,7 +9,8 @@ export const tasks = {
       description,
       status,
       start_date,
-      end_date
+      end_date,
+      updated_at=NOW()
     )
     VALUES ($1, $2, $3, $4, $5,$6);`,
 };
