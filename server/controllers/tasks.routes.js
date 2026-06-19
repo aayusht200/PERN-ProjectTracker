@@ -18,7 +18,7 @@ export const getTask = (req, res) => {
     const values = [projectId, taskId];
     pool.query(tasks.selectOne, values)
         .then((response) => {
-            res.send(response.rows);
+            res.send(response.rows[0]);
         })
         .catch((error) => {
             console.log(error);
@@ -72,5 +72,3 @@ export const deleteTask = (req, res) => {
             res.status(500).send({ message: 'Internal Server Error' });
         });
 };
-
-
