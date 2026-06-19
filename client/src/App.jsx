@@ -1,6 +1,6 @@
 import React from 'react';
 import ProjectPage from './componenets/project/ProjectPage';
-import ProjectTasks from './componenets/project/ProjectTasks';
+import ProjectTasks from './componenets/tasks/ProjectTasks';
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router';
 
 function App() {

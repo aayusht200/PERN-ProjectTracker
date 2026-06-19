@@ -3,6 +3,7 @@ import { toCapitalize } from '../../helperFunction/helperFunction';
 const TableComponent = ({ data, columns, renderActions, className }) => {
     // console.log(data);
     // console.log(columns);
+    if (data.length <= 0) return <h2 className={`${className}`}>No Tasks!</h2>;
     return (
         <table className={`${className}`}>
             <thead className="border-inherit">
