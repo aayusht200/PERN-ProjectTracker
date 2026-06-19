@@ -10,7 +10,9 @@ export const EditTask = ({ data }) => {
     useEffect(() => {
         function getData() {
             fetch(`http://localhost:3000/api/projects/${projectId}/tasks/${taskId}`)
-                .then((response) => response.json())
+                .then((response) => {
+                    return response.json();
+                })
                 .then((data) => setData(data))
                 .catch((error) => console.log(error));
         }
@@ -35,10 +37,19 @@ export const EditTask = ({ data }) => {
                 title: task.title,
                 description: task.description,
                 status: task.status,
-                start_date: task.start_date,
-                end_date: task.end_date,
+                start_date: '2026-05-28',
+                end_date: '2026-05-28',
             }),
         })
+            .then((response) => {
+                if (response.ok) navigate(`/project/${projectId}/tasks`, { replace: true });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+    function handleDelete(e) {
+        fetch(`http://localhost:3000/api/projects/${projectId}/tasks/${taskId}`, { method: 'delete' })
             .then((response) => {
                 if (response.ok) navigate(`/project/${projectId}/tasks`, { replace: true });
             })
@@ -63,7 +74,7 @@ export const EditTask = ({ data }) => {
                     context={fields.description}
                     value={task.description || ''}
                     onChange={handleChange}
-                    className="bg-blue-50  text-blue-500"
+                    className="bg-blue-50  text-blue-500 mb-4"
                 />
                 <Input
                     context={fields.status}
@@ -83,7 +94,12 @@ export const EditTask = ({ data }) => {
                     onChange={handleChange}
                     className="bg-blue-50  text-blue-500"
                 />
-                <button type="submit">Submit</button>
+                <div className="action flex gap-20">
+                    <button type="button" onClick={handleDelete}>
+                        Delete
+                    </button>
+                    <button type="submit">Submit</button>
+                </div>
             </form>
         </div>
     );

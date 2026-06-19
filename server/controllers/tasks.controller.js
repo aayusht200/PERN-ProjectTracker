@@ -27,16 +27,26 @@ export const getTask = (req, res) => {
 };
 export const createTask = (req, res) => {
     const { projectId } = req.params;
-    const { title, description, status, start_date, end_date } = req.body;
-    const values = [projectId, title, description, status, start_date, end_date];
+    const title = 'New Title';
+    const description = 'Dummy Description';
+    const status = 'active';
+    const values = [projectId, title, description, status];
     pool.query(tasks.createNew, values)
         .then((response) => {
-            if (response.rowCount === 1) res.status(201).send({ message: 'insertion successful' });
-            else {
+            if (response.rowCount === 1) {
+                pool.query(tasks.fetchLatest)
+                    .then((response) => {
+                        res.status(201).send({ taskId: `${response.rows[0].id}` });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            } else {
                 res.status(400).send({ message: 'insertion failed' });
             }
         })
         .catch((error) => {
+            console.log('here');
             console.log(error);
             res.status(500).send({ message: 'Internal Server Error' });
         });

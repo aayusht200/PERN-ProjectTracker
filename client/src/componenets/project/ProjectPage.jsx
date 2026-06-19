@@ -17,6 +17,7 @@ const ProjectPage = () => {
         <div className="w-dvw h-dvh text-amber-200 flex flex-col p-5 text-sm md:text-md lg:text-lg bg-amber-800">
             <h1 className="font-extrabold text-2xl">Projects</h1>
             <TableComponent
+                emptyMessage="No Projects!"
                 data={projects}
                 columns={columns}
                 className="w-8/10 self-center text-center"

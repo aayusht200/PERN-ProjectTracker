@@ -6,6 +6,7 @@ import { BackButton } from '../BackButton';
 const ProjectTasks = () => {
     const { id } = useParams();
     const [tasks, setData] = useState([]);
+    const navigate = useNavigate();
     useEffect(() => {
         function getData() {
             fetch(`http://localhost:3000/api/projects/${id}/tasks`)
@@ -15,13 +16,25 @@ const ProjectTasks = () => {
         }
         getData();
     }, []);
+    function createNewTask() {
+        fetch(`http://localhost:3000/api/projects/${id}/tasks`, { method: 'post' })
+            .then((response) => response.json())
+            .then((task) => {
+                navigate(`/project/${id}/tasks/${task.taskId}`);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
     return (
-        <div className="w-dvw h-dvh text-blue-200 flex flex-col p-5 text-sm md:text-md lg:text-lg bg-blue-800">
-            <div className="">
+        <div className="w-dvw h-dvh text-blue-200 flex  p-5 text-sm md:text-md lg:text-lg bg-blue-800">
+            <div className="flex flex-col w-fit items-start gap-5">
                 <h1 className="font-extrabold text-2xl">Tasks</h1>
                 <BackButton path={`/projects`} />
+                <button onClick={createNewTask}>New Task</button>
             </div>
             <TableComponent
+                emptyMessage="No Tasks!"
                 data={tasks}
                 columns={columns}
                 className="w-8/10 self-center text-center"
