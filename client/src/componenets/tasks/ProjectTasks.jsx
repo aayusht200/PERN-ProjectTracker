@@ -27,8 +27,8 @@ const ProjectTasks = () => {
             });
     }
     return (
-        <div className="w-dvw h-dvh text-blue-200 flex  p-5 text-sm md:text-md lg:text-lg bg-blue-800">
-            <div className="flex flex-col w-fit items-start gap-5">
+        <div className="w-dvw h-dvh text-blue-200 p-5 text-sm md:text-md lg:text-lg bg-blue-800 grid grid-cols-10">
+            <div className="col-span-1 gap-5 flex flex-col items-center">
                 <h1 className="font-extrabold text-2xl">Tasks</h1>
                 <BackButton path={`/projects`} />
                 <button onClick={createNewTask}>New Task</button>
@@ -37,7 +37,7 @@ const ProjectTasks = () => {
                 emptyMessage="No Tasks!"
                 data={tasks}
                 columns={columns}
-                className="w-8/10 self-center text-center"
+                className="text-center col-span-9 h-fit"
                 renderActions={(taskId) => <ActionBar taskId={taskId} projectId={id} />}
             />
         </div>
