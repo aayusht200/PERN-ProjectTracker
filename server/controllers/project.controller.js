@@ -30,13 +30,23 @@ export const getProject = (req, res) => {
         });
 };
 export const createProject = (req, res) => {
-    const { title, description, status, start_date, end_date } = req.body;
     const query = project.createNew;
-    const values = [title, description, status, start_date, end_date];
+    const title = 'Dummy Project Title';
+    const description = `Dummy Project Description`;
+    const status = 'active';
+    const values = [title, description, status];
     pool.query(query, values)
         .then((response) => {
-            if (response.rowCount === 1) res.status(200).json({ message: 'New Project inserted sucessfully' });
-            else {
+            if (response.rowCount === 1) {
+                pool.query(project.fetchLatest)
+                    .then((data) => {
+                        if (data.rowCount === 1) res.status(200).send({ id: data.rows[0].id });
+                        else res.status(400).json({ message: 'Insertion failed' });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            } else {
                 res.status(400).json({ message: 'Insertion failed' });
             }
         })

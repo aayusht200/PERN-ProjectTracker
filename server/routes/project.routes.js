@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get('/', getAllProjects);
 router.get('/:id', validateId, getProject);
-router.post('/', validateData, createProject);
+router.post('/', createProject);
 router.put('/:id', validateId, validateData, updateProject);
 router.delete('/:id', validateId, deleteProject);
 
