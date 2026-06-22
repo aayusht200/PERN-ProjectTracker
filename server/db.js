@@ -1,5 +1,6 @@
 import pg from 'pg';
 import 'dotenv/config';
+pg.types.setTypeParser(1082, (val) => val);
 export const pool = new pg.Pool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,

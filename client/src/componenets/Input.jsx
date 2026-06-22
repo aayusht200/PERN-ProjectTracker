@@ -76,9 +76,10 @@ const InputDate = ({ context, value, onChange, className }) => {
             <input
                 id={context.name}
                 type="date"
-                value={value}
+                value={formatDate(value)}
                 onChange={onChange}
                 className={`${className} border rounnded`}
+                name={context.name}
             />
         </div>
     );

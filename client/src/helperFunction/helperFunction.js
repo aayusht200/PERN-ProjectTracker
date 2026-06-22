@@ -5,9 +5,7 @@ function toCapitalize(str) {
 function formatDate(date) {
     if (!date) return '';
 
-    const [year, month, day] = date.split('T')[0].split('-');
-
-    return `${day}-${month}-${year}`;
+    const plain = Temporal.PlainDate.from(date.split('T')[0]);
+    return plain.toString();
 }
-
 export { toCapitalize, formatDate };

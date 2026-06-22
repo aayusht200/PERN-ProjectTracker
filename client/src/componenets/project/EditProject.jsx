@@ -24,10 +24,11 @@ const EditProject = () => {
     }, []);
 
     function handleChange(e) {
+        const { name, value } = e.target;
         setData((prev) => {
             return {
                 ...prev,
-                [e.target.name]: e.target.value,
+                [name]: value,
             };
         });
     }
@@ -42,8 +43,8 @@ const EditProject = () => {
                 title: data.title,
                 description: data.description,
                 status: data.status,
-                start_date: '2026-05-28',
-                end_date: '2026-05-28',
+                start_date: data.start_date,
+                end_date: data.end_date,
             }),
         })
             .then((response) => {
