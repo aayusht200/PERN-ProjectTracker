@@ -3,9 +3,18 @@ import { useEffect, useState } from 'react';
 import { fields } from './taskMetaData';
 import Input from '../Input';
 import { BackButton } from '../BackButton';
-export const EditTask = ({ data }) => {
+import { Button } from '../Button';
+import { validate } from '../../helperFunction/valdidateData';
+export const EditTask = () => {
     const { projectId, taskId } = useParams();
-    const [task, setData] = useState([]);
+    const [data, setData] = useState({
+        title: '',
+        description: '',
+        status: '',
+        start_date: '',
+        end_date: '',
+    });
+    const [errors, setErrors] = useState({});
     const navigate = useNavigate();
     useEffect(() => {
         function getData() {
@@ -19,26 +28,36 @@ export const EditTask = ({ data }) => {
         getData();
     }, []);
     function handleChange(e) {
-        const target = e.target.name;
-        const value = e.target.value;
-        setData((prev) => ({
-            ...prev,
-            [target]: value,
-        }));
+        const { name, value } = e.target;
+
+        const nextData = {
+            ...data,
+            [name]: value,
+        };
+
+        setData(nextData);
+        setErrors(validate(nextData));
     }
     function handleSubmit(e) {
         e.preventDefault();
+
+        const errors = validate(data);
+        setErrors(errors);
+
+        if (Object.keys(errors).length > 0) {
+            return;
+        }
         fetch(`http://localhost:3000/api/projects/${projectId}/tasks/${taskId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                title: task.title,
-                description: task.description,
-                status: task.status,
-                start_date: '2026-05-28',
-                end_date: '2026-05-28',
+                title: data.title,
+                description: data.description,
+                status: data.status,
+                start_date: data.start_date,
+                end_date: data.end_date,
             }),
         })
             .then((response) => {
@@ -63,42 +82,46 @@ export const EditTask = ({ data }) => {
                 <h1 className="font-extrabold text-2xl">Edit Tasks</h1>
                 <BackButton />
             </div>
-            <form className="edit-task col-span-9 grid gap-2" onSubmit={handleSubmit}>
+            <form className="edit-task col-span-9 grid gap-3" onSubmit={handleSubmit}>
                 <Input
                     context={fields.title}
-                    value={task.title || ''}
+                    value={data.title || ''}
                     onChange={handleChange}
-                    className="bg-blue-50  text-blue-500 h-fit"
+                    className="bg-blue-50 rounded-2xl pl-2 pr-2 text-blue-500 h-fit"
+                    error={errors.title || ''}
                 />
                 <Input
                     context={fields.description}
-                    value={task.description || ''}
+                    value={data.description || ''}
                     onChange={handleChange}
-                    className="bg-blue-50  text-blue-500 mb-4"
+                    className="bg-blue-50 rounded-2xl pl-2 pr-2 text-blue-500 mb-4"
+                    error={errors.description || ''}
                 />
                 <Input
                     context={fields.status}
-                    value={task.status || ''}
+                    value={data.status || ''}
                     onChange={handleChange}
-                    className="h-fit bg-blue-50  text-blue-500"
+                    className="h-fit bg-blue-50 rounded-2xl pl-2 pr-2 text-blue-500"
                 />
                 <Input
                     context={fields.start_date}
-                    value={task.start_date || ''}
+                    value={data.start_date || ''}
                     onChange={handleChange}
-                    className=" bg-blue-50  text-blue-500"
+                    className=" bg-blue-50 rounded-2xl pl-2 pr-2 text-blue-500"
+                    error={errors.start_date || ''}
                 />
                 <Input
                     context={fields.end_date}
-                    value={task.end_date || ''}
+                    value={data.end_date || ''}
                     onChange={handleChange}
-                    className="bg-blue-50  text-blue-500"
+                    className="bg-blue-50 rounded-2xl pl-2 pr-2 text-blue-500"
+                    error={errors.end_date || ''}
                 />
                 <div className="action flex gap-20">
-                    <button type="button" onClick={handleDelete}>
+                    <Button type="button" onClick={handleDelete}>
                         Delete
-                    </button>
-                    <button type="submit">Submit</button>
+                    </Button>
+                    <Button type="submit">Submit</Button>
                 </div>
             </form>
         </div>

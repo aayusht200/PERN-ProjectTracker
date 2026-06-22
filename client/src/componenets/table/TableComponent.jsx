@@ -1,8 +1,6 @@
 import { toCapitalize } from '../../helperFunction/helperFunction';
 
 const TableComponent = ({ data, columns, renderActions, className, emptyMessage }) => {
-    // console.log(data);
-    // console.log(columns);
     if (data.length <= 0) return <h2 className={`${className}`}>{emptyMessage}</h2>;
     return (
         <table className={`${className}`}>

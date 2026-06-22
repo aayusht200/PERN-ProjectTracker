@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import TableComponent from '../table/TableComponent';
 import { columns } from './projectMetaData.js';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../Button.jsx';
 const ProjectPage = () => {
     const [projects, setData] = useState([]);
     const navigate = useNavigate();
@@ -28,8 +29,10 @@ const ProjectPage = () => {
     return (
         <div className="w-dvw h-dvh text-amber-200 p-5 text-sm md:text-md lg:text-lg bg-amber-800 grid grid-cols-10">
             <div className="col-span-1 gap-5 flex flex-col items-center">
-                <h1 className="font-extrabold text-2xl">Projects</h1>
-                <button onClick={createNewProject}>New Project</button>
+                <h1 className="font-extrabold text-3xl">Projects</h1>
+                <Button onClick={createNewProject} className="p-2">
+                    New Project
+                </Button>
             </div>
             <TableComponent
                 emptyMessage="No Projects!"
@@ -44,22 +47,22 @@ const ProjectPage = () => {
 function ActionBar({ id }) {
     const navigate = useNavigate();
     return (
-        <div className="grid">
-            <button
+        <div className="grid gap-2 p-1">
+            <Button
                 className="border-b"
                 onClick={() => {
                     navigate(`/project/${id}/edit`);
                 }}
             >
                 Edit
-            </button>
-            <button
+            </Button>
+            <Button
                 onClick={() => {
                     navigate(`/project/${id}/tasks`);
                 }}
             >
                 Tasks
-            </button>
+            </Button>
         </div>
     );
 }

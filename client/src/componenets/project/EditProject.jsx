@@ -3,8 +3,18 @@ import { replace, useNavigate, useParams } from 'react-router-dom';
 import { BackButton } from '../BackButton';
 import Input from '../Input';
 import { fields } from './projectMetaData';
+import { Button } from '../Button';
+import { validate } from '../../helperFunction/valdidateData';
 const EditProject = () => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({
+        title: '',
+        description: '',
+        status: '',
+        start_date: '',
+        end_date: '',
+    });
+    const [errors, setErrors] = useState({});
+
     const { projectId } = useParams();
     const navigate = useNavigate();
     useEffect(() => {
@@ -22,18 +32,28 @@ const EditProject = () => {
         }
         getData();
     }, []);
-
     function handleChange(e) {
         const { name, value } = e.target;
-        setData((prev) => {
-            return {
-                ...prev,
-                [name]: value,
-            };
-        });
+
+        const nextData = {
+            ...data,
+            [name]: value,
+        };
+
+        setData(nextData);
+        setErrors(validate(nextData));
     }
+
     function handleSubmit(e) {
         e.preventDefault();
+
+        const errors = validate(data);
+        setErrors(errors);
+
+        if (Object.keys(errors).length > 0) {
+            return;
+        }
+
         fetch(`http://localhost:3000/api/projects/${projectId}`, {
             method: 'PUT',
             headers: {
@@ -74,37 +94,41 @@ const EditProject = () => {
                     context={fields.title}
                     value={data.title || ''}
                     onChange={handleChange}
-                    className="bg-amber-50  text-amber-500 h-fit"
+                    className="bg-amber-50 rounded-2xl pl-2 pr-2  text-amber-500 h-fit"
+                    error={errors.title || ''}
                 />
                 <Input
                     context={fields.description}
                     value={data.description || ''}
                     onChange={handleChange}
-                    className="bg-amber-50  text-amber-500 mb-4"
+                    className="bg-amber-50 rounded-2xl pl-2 pr-2 text-amber-500 mb-4"
+                    error={errors.description || ''}
                 />
                 <Input
                     context={fields.status}
                     value={data.status || ''}
                     onChange={handleChange}
-                    className="h-fit bg-amber-50  text-amber-500"
+                    className="h-fit bg-amber-50 rounded-2xl pl-2 pr-2 text-amber-500"
                 />
                 <Input
                     context={fields.start_date}
                     value={data.start_date || ''}
                     onChange={handleChange}
-                    className=" bg-amber-50  text-amber-500"
+                    className=" bg-amber-50 rounded-2xl pl-2 pr-2  text-amber-500"
+                    error={errors.start_date || ''}
                 />
                 <Input
                     context={fields.end_date}
                     value={data.end_date || ''}
                     onChange={handleChange}
-                    className="bg-amber-50  text-amber-500"
+                    className="bg-amber-50 rounded-2xl pl-2 pr-2 text-amber-500"
+                    error={errors.end_date || ''}
                 />
                 <div className="action flex gap-20">
-                    <button type="button" onClick={handleDelete}>
+                    <Button type="button" onClick={handleDelete}>
                         Delete
-                    </button>
-                    <button type="submit">Submit</button>
+                    </Button>
+                    <Button type="submit">Submit</Button>
                 </div>
             </form>
         </div>

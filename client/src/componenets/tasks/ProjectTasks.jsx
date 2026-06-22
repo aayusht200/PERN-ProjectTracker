@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import TableComponent from '../table/TableComponent';
 import { columns } from './taskMetaData';
 import { BackButton } from '../BackButton';
+import { Button } from '../Button';
 const ProjectTasks = () => {
     const { id } = useParams();
     const [tasks, setData] = useState([]);
@@ -29,9 +30,9 @@ const ProjectTasks = () => {
     return (
         <div className="w-dvw h-dvh text-blue-200 p-5 text-sm md:text-md lg:text-lg bg-blue-800 grid grid-cols-10">
             <div className="col-span-1 gap-5 flex flex-col items-center">
-                <h1 className="font-extrabold text-2xl">Tasks</h1>
+                <h1 className="font-extrabold text-3xl">Tasks</h1>
                 <BackButton path={`/projects`} />
-                <button onClick={createNewTask}>New Task</button>
+                <Button onClick={createNewTask}>New Task</Button>
             </div>
             <TableComponent
                 emptyMessage="No Tasks!"
@@ -48,14 +49,14 @@ function ActionBar({ projectId, taskId }) {
     const navigate = useNavigate();
     return (
         <div className="grid">
-            <button
+            <Button
                 className=""
                 onClick={() => {
                     navigate(`/project/${projectId}/tasks/${taskId}`);
                 }}
             >
                 Edit
-            </button>
+            </Button>
         </div>
     );
 }

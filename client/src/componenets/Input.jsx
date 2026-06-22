@@ -1,23 +1,29 @@
 import { formatDate, toCapitalize } from '../helperFunction/helperFunction';
 
-const Input = ({ context, value = '', onChange, className = '' }) => {
+const Input = ({ context, value = '', onChange, className = '', error = '' }) => {
     switch (context.type) {
         case 'text': {
-            return <TextField context={context} value={value} onChange={onChange} className={className} />;
+            return (
+                <TextField context={context} value={value} onChange={onChange} className={className} error={error} />
+            );
         }
         case 'textarea': {
-            return <TextArea context={context} value={value} onChange={onChange} className={className} />;
+            return <TextArea context={context} value={value} onChange={onChange} className={className} error={error} />;
         }
         case 'select': {
-            return <DropDownList context={context} value={value} onChange={onChange} className={className} />;
+            return (
+                <DropDownList context={context} value={value} onChange={onChange} className={className} error={error} />
+            );
         }
         case 'date': {
-            return <InputDate context={context} value={value} onChange={onChange} className={className} />;
+            return (
+                <InputDate context={context} value={value} onChange={onChange} className={className} error={error} />
+            );
         }
     }
 };
 
-const TextField = ({ context, value, onChange, className }) => {
+const TextField = ({ context, value, onChange, className, error }) => {
     return (
         <div className={`flex`}>
             <label htmlFor={context.label}>{context.label} : </label>
@@ -28,13 +34,14 @@ const TextField = ({ context, value, onChange, className }) => {
                 value={value}
                 onChange={onChange}
                 type="text"
-                className={`${className} rounded border`}
+                className={error ? `border-red-500 ${className} rounded border` : `${className} rounded border`}
                 required={context.required}
             />
+            {error && <p>{error}</p>}
         </div>
     );
 };
-const TextArea = ({ context, value, onChange, className }) => {
+const TextArea = ({ context, value, onChange, className, error }) => {
     return (
         <div className="flex">
             <label htmlFor={context.name}>{context.label} : </label>
@@ -44,12 +51,18 @@ const TextArea = ({ context, value, onChange, className }) => {
                 value={value}
                 onChange={onChange}
                 type="text"
-                className={`${className} md:w-md lg:w-lg rounded border`}
+                className={
+                    error
+                        ? `border-red-500 ${className}  md:w-md lg:w-lg rounded border`
+                        : `${className}  md:w-md lg:w-lg rounded border`
+                }
+                required={context.required}
             />
+            {error && <p>{error}</p>}
         </div>
     );
 };
-const DropDownList = ({ context, value, onChange, className }) => {
+const DropDownList = ({ context, value, onChange, className, error }) => {
     return (
         <div className="relative flex gap-2">
             <label htmlFor={`${context.name}-select`}>{context.label} :</label>
@@ -57,7 +70,7 @@ const DropDownList = ({ context, value, onChange, className }) => {
                 name={context.name}
                 id={`${context.name}-select`}
                 onChange={onChange}
-                className={`${className} cursor-pointer rounded border text-center`}
+                className={`${className} rounded border cursor-pointer`}
                 value={value}
             >
                 {context.options.map((option) => (
@@ -69,7 +82,7 @@ const DropDownList = ({ context, value, onChange, className }) => {
         </div>
     );
 };
-const InputDate = ({ context, value, onChange, className }) => {
+const InputDate = ({ context, value, onChange, className, error }) => {
     return (
         <div>
             <label htmlFor={context.name}>{context.label} :</label>
@@ -78,9 +91,15 @@ const InputDate = ({ context, value, onChange, className }) => {
                 type="date"
                 value={formatDate(value)}
                 onChange={onChange}
-                className={`${className} border rounnded`}
+                className={
+                    error
+                        ? `border-red-500 ${className} rounded border cursor-pointer`
+                        : `${className} rounded border cursor-pointer`
+                }
                 name={context.name}
+                required={context.required}
             />
+            {error && <p>{error}</p>}
         </div>
     );
 };
