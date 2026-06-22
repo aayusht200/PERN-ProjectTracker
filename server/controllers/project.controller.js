@@ -19,7 +19,7 @@ export const getProject = (req, res) => {
     const values = [project_id.id];
     pool.query(query, values)
         .then((response) => {
-            if (response.rowCount === 1) res.json(response.rows);
+            if (response.rowCount === 1) res.json(response.rows[0]);
             else res.status(404).json({ message: 'invalid id' });
         })
         .catch((err) => {
@@ -87,4 +87,3 @@ export const deleteProject = (req, res) => {
             });
         });
 };
-

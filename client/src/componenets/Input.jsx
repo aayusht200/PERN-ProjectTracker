@@ -58,6 +58,7 @@ const DropDownList = ({ context, value, onChange, className }) => {
                 id={`${context.name}-select`}
                 onChange={onChange}
                 className={`${className} cursor-pointer rounded border text-center`}
+                value={value}
             >
                 {context.options.map((option) => (
                     <option key={option} value={option}>

@@ -3,6 +3,7 @@ import ProjectPage from './componenets/project/ProjectPage';
 import ProjectTasks from './componenets/tasks/ProjectTasks';
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router';
 import { EditTask } from './componenets/tasks/EditTask';
+import EditProject from './componenets/project/EditProject';
 
 function App() {
     return (
@@ -11,6 +12,7 @@ function App() {
             <Route path="/projects" element={<ProjectPage />} />
             <Route path="/project/:id/tasks" element={<ProjectTasks />} />
             <Route path="/project/:projectId/tasks/:taskId" element={<EditTask />} />
+            <Route path="/project/:projectId/edit" element={<EditProject />} />
         </Routes>
     );
 }

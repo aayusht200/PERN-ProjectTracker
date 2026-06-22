@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import TableComponent from '../table/TableComponent';
-import { columns } from './projectColumns.js';
+import { columns } from './projectMetaData.js';
 import { useNavigate } from 'react-router-dom';
 const ProjectPage = () => {
     const [projects, setData] = useState([]);
@@ -33,7 +33,7 @@ function ActionBar({ id }) {
             <button
                 className="border-b"
                 onClick={() => {
-                    console.log(id);
+                    navigate(`/project/${id}/edit`);
                 }}
             >
                 Edit
