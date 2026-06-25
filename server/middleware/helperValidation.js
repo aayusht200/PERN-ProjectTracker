@@ -1,4 +1,5 @@
 import { validate } from 'uuid';
+import { body, validationResult } from 'express-validator';
 export const validateId = (req, res, next) => {
     const data = req.params;
     for (const id of Object.values(data)) {
@@ -41,3 +42,14 @@ export const validateData = (req, res, next) => {
     }
     next();
 };
+
+// export const validateBody = async (req, res, next) => {
+//     const data = req.body;
+//     const validTitle = body('title', 'Title canot be empty.').notEmpty();
+//     const validDescription = body('description', 'Description canot be empty.').trim().notEmpty();
+//     await validTitle.run(req);
+//     await validDescription.run(req);
+//     const err = validationResult(req);
+//     console.log(err);
+//     next();
+// };

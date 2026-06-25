@@ -34,7 +34,6 @@ export const fields = {
         label: 'Description',
         name: 'description',
         type: 'textarea',
-        required: true,
     },
     status: {
         label: 'Status',

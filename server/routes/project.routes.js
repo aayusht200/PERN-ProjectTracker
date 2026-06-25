@@ -6,7 +6,7 @@ import {
     updateProject,
     deleteProject,
 } from '../controllers/project.controller.js';
-import { validateId, validateData } from '../controllers/helperValidation.js';
+import { validateId, validateData } from '../middleware/helperValidation.js';
 
 const router = express.Router();
 

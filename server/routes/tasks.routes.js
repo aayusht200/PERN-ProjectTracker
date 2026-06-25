@@ -1,7 +1,7 @@
 import express from 'express';
 import { getProjectTasks, getTask, createTask, editTask, deleteTask } from '../controllers/tasks.controller.js';
 
-import { validateId, validateData } from '../controllers/helperValidation.js';
+import { validateId, validateData } from '../middleware/helperValidation.js';
 const router = express.Router();
 router.get('/:projectId/tasks', getProjectTasks);
 router.get('/:projectId/tasks/:taskId', validateId, getTask);
